@@ -48,8 +48,8 @@ configure_xray() {
   #Links
   Alink1="vless://"$uuid"@"$cf1":443?encryption=none&security=tls&type=ws&host="$domain"&path="/$path"&sni=$domain&fp="chrome"&alpn="h2,http/1.1"#VLess-V2FastShell-cf1-Port-443"
   Alink2="vless://"$uuid"@"$cf1":80?encryption=none&security=none&type=ws&host="$domain"&path="/$path"#VLess-V2FastShell-cf1-Port-80"
-  Alink3="vless://"$uuid"@"$cf1":443?encryption=none&security=tls&type=ws&host="$domain"&path="/$path"&sni=$domain&fp="chrome"&alpn="h2,http/1.1"#VLess-V2FastShell-cf2-Port-443"
-  Alink4="vless://"$uuid"@"$cf1":80?encryption=none&security=none&type=ws&host="$domain"&path="/$path"#VLess-V2FastShell-cf2-Port-80"
+  Alink3="vless://"$uuid"@"$cf2":443?encryption=none&security=tls&type=ws&host="$domain"&path="/$path"&sni=$domain&fp="chrome"&alpn="h2,http/1.1"#VLess-V2FastShell-cf2-Port-443"
+  Alink4="vless://"$uuid"@"$cf2":80?encryption=none&security=none&type=ws&host="$domain"&path="/$path"#VLess-V2FastShell-cf2-Port-80"
   
   Blink1=$(echo -e '\x76\x6d\x65\x73\x73')://$(echo -n "{\"v\":\"2\",\"ps\":\"VMess-V2FastShell-cf1-Port-443\",\"add\":\"$cf1\",\"port\":\"443\",\"id\":\"$uuid\",\"aid\":\"0\",\"net\":\"ws\",\"type\":\"none\",\"host\":\"$domain\",\"path\":\"/$path\",\"tls\":\"tls\",\"fp\":\"chrome\",\"alpn\":\"h2,http/1.1\",\"sni\":\"$domain\",\"security\":\"auto\"}" | base64 -w 0)
   Blink2=$(echo -e '\x76\x6d\x65\x73\x73')://$(echo -n "{\"v\":\"2\",\"ps\":\"VMess-V2FastShell-cf1-Port-80\",\"add\":\"$cf1\",\"port\":\"80\",\"id\":\"$uuid\",\"aid\":\"0\",\"net\":\"ws\",\"type\":\"none\",\"host\":\"$domain\",\"path\":\"/$path\",\"security\":\"auto\"}" | base64 -w 0)
@@ -163,41 +163,6 @@ echo -e "${BLUE}      ● Generating Inbound ..."
           "tls"
         ]
       }
-    },
-    {
-      "listen": null,
-      "port": "$portt",
-      "protocol": "shadowsocks",
-      "settings": {
-        "clients": [
-          {
-            "email": "ss",
-            "flow": "",
-            "id": "$uuid"
-          }
-        ],
-        "decryption": "none",
-        "fallbacks": []
-      },
-      "streamSettings": {
-        "network": "ws",
-        "security": "none",
-        "wsSettings": {
-          "acceptProxyProtocol": false,
-          "headers": {
-            "Host": "$domain"
-          },
-          "path": "/$path"
-        }
-      },
-      "tag": "ss",
-      "sniffing": {
-        "enabled": false,
-        "destOverride": [
-          "http",
-          "tls"
-        ]
-      }
     }
   ],
   "outbounds": [
@@ -251,10 +216,14 @@ install_xray
 systemctl start xray.service
 configure_xray
 
-echo -e "${WHITE}${BOLD}     ☆ V2FastShell Installed Successfully${NORM}"
-echo -e "${YELLOW} V2FastShell Running •"
+echo -e "${WHITE}${BOLD}      ☆ V2FastShell Installed Successfully ${NORM}"
+echo -e "${YELLOW}      V2FastShell Running •"
 echo -e "${RED}${BOLD}      Wait For Generating Links${NORM}"
 sleep 3
+echo -e "${WHITE}--------------------------------"
+echo -e "${WHITE}Server IP :${RED} $ip\n${WHITE}UUID : ${RED}$uuid\n${WHITE}Domain : ${RED}$domain\n${WHITE}Path : ${RED}/$path"
+echo -e "${WHITE}--------------------------------"
+
 echo -e "${BLUE}      VLESS Links :"
 echo -e "${WHITE}$Alink1\n$Alink2\n$Alink3\n$Alink4"
 echo -e "${BLUE}      VMESS Links :"
