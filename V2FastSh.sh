@@ -243,8 +243,9 @@ sleep 2
 systemctl restart xray.service
 }
 
-servip="$1"
-cfdomain="$2"
+ip="$1"
+domain="$2"
+path="$3"
 install_dependencies
 install_xray
 systemctl start xray.service
